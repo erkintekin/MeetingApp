@@ -26,6 +26,29 @@
 
  </nav>
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for category, message in messages %}
+        {% if category == 'error' %}
+    <!-- For error messages  -->
+    <div class="alert alert-danger alert-dissmissible fade show" role="alert">{{ message }}
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+            {% else %}
+    <!-- For success messages -->
+    <div class="alert alert-success alert-dissmissible fade show" role="alert">{{ message }}
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+{% endwith %}
+
+
 <div class="container">
     {% block content %}
     {% endblock %}

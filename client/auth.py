@@ -30,4 +30,6 @@ def signUp():
                 else:
                        # Successfully signed up
                        flash('User created', category='success') 
+        else:
+                flash('Please fill out the sign-up form.', category='error')
         return render_template("sign_up.html")

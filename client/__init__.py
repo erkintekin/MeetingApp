@@ -1,9 +1,24 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+# Naming the database
+db = SQLAlchemy()
+DB_NAME = "meetingApp.db"
+
+
 
 def create_app():
     app=Flask(__name__)
+
     # Encrypt cookies and session datas
-    app.config['SECRET KEY'] = 'abcd'
+    app.secret_key = 'abcd1234'
+
+    # Adding SQLAlchemy location
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+
+    # Database initialization
+    db.init_app(app)
+
 
     from .views import views
     from .auth import auth
