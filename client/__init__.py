@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from os import path
 
 # Naming the database
 db = SQLAlchemy()
@@ -22,8 +23,17 @@ def create_app():
 
     from .views import views
     from .auth import auth
+
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/') # To go the defined page
-    
+
+        # Defining the model tables
+    from .models import User, MeetingData, UserMeeting
+
+        # To create database with SQLAlchemy
+    with app.app_context():
+        db.create_all()
 
     return app
+
+    
