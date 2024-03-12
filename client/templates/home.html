@@ -2,4 +2,43 @@
 
 {% block content %} 
 
+
+<h1>Welcome, {{ current_user.first_name }}!</h1>
+<ul>
+    
+    {% if user_meetings: %}
+        {% for meeting in user_meetings %}
+        <h2>Your Meetings:</h2>
+        <li>{{ meeting.name }} - {{ meeting.date }}</li>
+        {% endfor %}
+    {% else %}
+        <h3>You can create a meeting below</h3>
+    {% endif %}
+    
+</ul>
+
+<form method="POST">
+  
+  <label for="name">Name</label>
+  <input type="text" class="form-control" id="name" name="name">
+
+  <label for="date">Date</label>
+  <input type="date" class="form-control" id="date" name="date">
+
+  <label for="start_time">Starting Time</label>
+  <input type="time" class="form-control" id="start_time" name="start_time">
+
+  <label for="end_time">Ending Time</label>
+  <input type="time" class="form-control" id="end_time" name="end_time">
+
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Add Meeting</button>
+  </div>
+
+</form>
+
+
+
+
+
 {% endblock %}
