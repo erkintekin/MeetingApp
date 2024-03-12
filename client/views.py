@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, flash, jsonify, redirect,
 from flask_login import login_required, current_user 
 from .models import MeetingData
 from . import db
+import json
 
 views = Blueprint('views',__name__)
 
@@ -27,4 +28,14 @@ def home():
     
             # Routing the homepage
     return render_template("home.html",user=current_user, user_meetings=user_meetings) # This checks user is logged in or not
+
+@views.route('/delete-meeting/<int:id>', methods=['POST'])
+@login_required
+def delete_meeting(id):
+    meeting = MeetingData.query.get(id)
+    if meeting and meeting.user_id == current_user.id:
+        db.session.delete(meeting)
+        db.session.commit()
+        return jsonify({})
+   
 

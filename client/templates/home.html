@@ -6,10 +6,15 @@
 <h1>Welcome, {{ current_user.first_name }}!</h1>
 <ul>
     
-    {% if user_meetings: %}
+    {% if user_meetings %}
+    <h2>Your Meetings:</h2>
         {% for meeting in user_meetings %}
-        <h2>Your Meetings:</h2>
-        <li>{{ meeting.name }} - {{ meeting.date }}</li>
+        <li>{{ meeting.name }} - {{ meeting.date }}  
+
+          <!-- Delete button & event -->
+          <button type="button" class="btn btn-sm btn-danger" onClick="deleteMeeting({{meeting.id}})">Delete</button>
+        
+        </li>
         {% endfor %}
     {% else %}
         <h3>You can create a meeting below</h3>
@@ -38,7 +43,16 @@
 </form>
 
 
-
-
+    <!-- Delete script (Javascript) -->
+<script>
+  function deleteMeeting(id) {
+      fetch(`/delete-meeting/${id}`, {
+          method: 'POST'
+          
+      })
+      .then(response => response.ok ? window.location.reload() : console.error('Delete failed'))
+      .catch(error => console.error('Error:', error));
+  }
+</script>
 
 {% endblock %}
