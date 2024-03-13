@@ -1,6 +1,6 @@
 Hi,
 
-This is my Flask project contains a mini-Meeting-website about Online Meeting Organizer.
+This is my Flask project that contains a mini-Meeting-website about Online Meeting Organizer.
 
 Let's talk about this Organizer's capabilities:
 
