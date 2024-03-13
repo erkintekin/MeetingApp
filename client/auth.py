@@ -1,12 +1,12 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from .models import User
-from . import db  # For sessions
-from werkzeug.security import generate_password_hash, check_password_hash  # To hash a password for security (SHA-256)
+from . import db  # For db sessions
+from werkzeug.security import generate_password_hash, check_password_hash  # To hash a password for security (SHA-256, it has a bug for macOS systems, login page may not open...)
 from flask_login import login_user, login_required, logout_user, current_user # current_user comes from UserMixin
 
 auth = Blueprint('auth',__name__)
 
-# To allow get & post methods
+         # Login algorithm and password hashing
 @auth.route('/login', methods=['GET','POST']) 
 def login():
         if request.method == 'POST':
@@ -25,12 +25,14 @@ def login():
 
         return render_template("login.html", user=current_user)
 
+        # Logout
 @auth.route('/logout')
-@login_required # It makes logout page inaccessible unless the user is not logged in
+@login_required # p.s It makes logout page inaccessible unless the user is not logged in
 def logout():
         logout_user()
         return redirect(url_for('auth.login'))
 
+        # Sign Up algorithm and password hashing
 @auth.route('/sign-up',methods=['GET','POST'])
 def signUp():
         if request.method == 'POST':
@@ -41,6 +43,7 @@ def signUp():
                 
                 user = User.query.filter_by(email=email).first()
 
+                # User creation parameters;
                 if user:
                         flash('This e-mail already exists!, try another e-mail to sign-up', category='error')
                 elif len(email) < 3:
@@ -52,7 +55,7 @@ def signUp():
                 elif len(password1) < 8:
                         flash('Password must be at least 8 characters.', category='error')
                 else:
-                       # Successfully signed up
+                       # If user successfully signs up;
                        new_user = User(email=email,first_name=firstName,password=generate_password_hash(password1, method='sha256'))
                        db.session.add(new_user)
                        db.session.commit()

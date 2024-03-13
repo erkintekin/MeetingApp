@@ -15,7 +15,7 @@ def create_app():
     # Encrypt cookies and session datas
     app.secret_key = 'abcd1234'
 
-    # Adding SQLAlchemy location, using f prime for SQLite connection
+    # Adding SQLAlchemy location with using f prime for SQLite connection
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}' 
 
     # Database initialization
@@ -40,7 +40,7 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(id):
-        return User.query.get(int(id)) # Flask will find the user by its ID which is primary key
+        return User.query.get(int(id)) # Flask will find the user by its ID which is primary key.
 
     return app
 
