@@ -73,7 +73,8 @@ def update_meeting(id):
                     start_time = request.form.get('start_time')
                     end_time = request.form.get('end_time')
                     user_id = current_user.id
-                    meeting = MeetingData(name=name,date=date, start_time=start_time,end_time=end_time,user_id=user_id)
+
+                    meeting = MeetingData(name=name, date=date, start_time=start_time, end_time=end_time, user_id=user_id)
                     db.session.add(meeting)
                     db.session.commit()
 

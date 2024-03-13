@@ -11,22 +11,21 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 
 class MeetingData(db.Model):
-        # ID column will be the primary key.
+    # ID column will be the primary key.
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120))
     date = db.Column(db.Date)
-    start_time = db.Column(db.Time)
-    end_time = db.Column(db.Time)
+    start_time = db.Column(db.String(8))  
+    end_time = db.Column(db.String(8))    
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-        # To parse date and time. SQLAlchemy gives an error if i don't use strptime in self method.
+    # To parse date and time. SQLAlchemy gives an error if i don't use strptime in self method.
     def __init__(self, name, date, start_time, end_time, user_id):
         self.name = name
         self.date = datetime.strptime(date, '%Y-%m-%d')
-        self.start_time = datetime.strptime(start_time, '%H:%M').time()
-        self.end_time = datetime.strptime(end_time, '%H:%M').time()
+        self.start_time = start_time
+        self.end_time = end_time
         self.user_id = user_id
-
 
 class User(db.Model, UserMixin):
         # ID column will be the primary key.
