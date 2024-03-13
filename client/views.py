@@ -38,4 +38,30 @@ def delete_meeting(id):
         db.session.commit()
         return jsonify({})
    
+@views.route('/update-meeting', methods=['GET','POST'])
+@login_required
+def update_meeting(id):
+    meeting = MeetingData.query.get('id')
+    if request.method == 'POST':
+        if meeting:
+            if meeting.user_id == current_user.id:
+                db.session.delete(meeting)
+                db.session.commit()
+
+                name = request.form.get('name')
+                date = request.form.get('date')
+                start_time = request.form.get('start_time')
+                end_time = request.form.get('end_time')
+                user_id = current_user.id
+                meeting = MeetingData(name=name,date=date, start_time=start_time,end_time=end_time,user_id=user_id)
+                db.session.add(meeting)
+                db.session.commit()
+
+                flash('Meeting update is successfull!', category='success')
+                return redirect(url_for('views.home'))
+        else:
+            flash('Sorry! Meeting not found', category='error')
+    
+    return redirect(url_for('views.home'))
+   
 
